@@ -3,11 +3,12 @@ import Topic from "../../models/topic.model";
 
 //GET /topic
 export const index = async (req : Request , res : Response) => {
-    const topic = await Topic.find({
+    const topics = await Topic.find({
         deleted : false 
     });
 
     res.render("client/pages/topics/index",{
-        pageTitle : "Chủ đề bài hát"
+        pageTitle : "Chủ đề bài hát",
+        topics : topics
     });
 }
