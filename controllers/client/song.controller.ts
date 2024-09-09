@@ -27,13 +27,40 @@ export const list = async (req: Request, res: Response) => {
 
     item["singer"] = singer;
   }
-
-  console.log(topic);
-  console.log(songs);
-
   res.render("client/pages/songs/list", {
     pageTitle: "Danh sách bài hát",
     topic: topic,
     songs: songs
+  });
+};
+
+// [GET] /songs/detail/:slugSong
+export const detail = async (req: Request, res: Response) => {
+  // const slugTopic = req.params.slugTopic;
+
+  // const topic = await Topic.findOne({
+  //   slug: slugTopic,
+  //   deleted: false,
+  //   status: "active"
+  // }).select("title");
+
+  // const songs = await Song.find({
+  //   topicId: topic.id,
+  //   deleted: false,
+  //   status: "active"
+  // }).select("avatar title singerId like slug");
+
+  // for (const item of songs) {
+  //   const singer = await Singer.findOne({
+  //     _id: item.singerId,
+  //     deleted: false
+  //   }).select("fullName");
+
+  //   item["singer"] = singer;
+  // }
+
+
+  res.render("client/pages/songs/detail", {
+    pageTitle: "Thông tin bài hát",
   });
 };
