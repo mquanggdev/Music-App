@@ -36,31 +36,29 @@ export const list = async (req: Request, res: Response) => {
 
 // [GET] /songs/detail/:slugSong
 export const detail = async (req: Request, res: Response) => {
-  // const slugTopic = req.params.slugTopic;
+  const slugSong:string = req.params.slugSong;
 
-  // const topic = await Topic.findOne({
-  //   slug: slugTopic,
-  //   deleted: false,
-  //   status: "active"
-  // }).select("title");
+  const song = await Song.findOne({
+    slug : slugSong,
+    deleted: false,
+    status: "active"
+  });
 
-  // const songs = await Song.find({
-  //   topicId: topic.id,
-  //   deleted: false,
-  //   status: "active"
-  // }).select("avatar title singerId like slug");
+  const singer = await Singer.findOne({
+    _id: song.singerId,
+    deleted: false
+  }).select("fullName");
 
-  // for (const item of songs) {
-  //   const singer = await Singer.findOne({
-  //     _id: item.singerId,
-  //     deleted: false
-  //   }).select("fullName");
-
-  //   item["singer"] = singer;
-  // }
+  const topic = await Topic.findOne({
+    _id: song.topicId,
+    deleted: false
+  }).select("title");
 
 
   res.render("client/pages/songs/detail", {
     pageTitle: "Thông tin bài hát",
+    song : song,
+    singer : singer ,
+    topic : topic
   });
 };
