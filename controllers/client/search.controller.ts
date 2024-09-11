@@ -3,8 +3,9 @@ import Song from "../../models/song.model";
 import Singer from "../../models/singer.model";
 import unidecode from "unidecode";
 
-//GET /topic
+//GET /:type
 export const result = async (req : Request , res : Response) => {
+    const type = req.params.type ;
     const keyword: string = `${req.query.keyword}`;
 
     const unidecodeText: string = unidecode(keyword.trim());
@@ -13,6 +14,7 @@ export const result = async (req : Request , res : Response) => {
 
     const keyWordRegex = new RegExp(keyword, "i");
     let songs = [];
+    const songDetail = [] ;
     if(keyword){
        songs = await Song.find({
         $or : [
@@ -29,15 +31,36 @@ export const result = async (req : Request , res : Response) => {
           deleted: false
         }).select("fullName");
     
-        item["singer"] = singer;
+        songDetail.push({
+          id: item.id,
+          avatar: item.avatar,
+          title: item.title,
+          like: item.like,
+          slug: item.slug,
+          singer: {
+          fullName: singer.fullName
+        },
+        });
       }
     }
     
-  
 
-  res.render("client/pages/search/result", {
-    pageTitle: `Kết quả: ${keyword}`,
-    keyword: keyword,
-    songs: songs
-  });
+  switch (type) {
+    case "result":
+      res.render("client/pages/search/result", {
+        pageTitle: `Kết quả: ${keyword}`,
+        keyword: keyword,
+        songs: songDetail
+      });
+      break;
+  
+    case "suggest":
+      res.json({
+        code : 200,
+        message : "Thành công",
+        songs : songDetail
+      })
+      break;
+  }
+  
 }
