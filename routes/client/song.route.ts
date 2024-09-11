@@ -7,4 +7,5 @@ router.get("/:slugTopic", controller.list);
 router.get("/detail/:slugSong" , controller.detail);
 router.patch("/like/:status/:songId", controller.like);
 router.patch("/favorite/:status/:songId", controller.favorite);
+router.patch("/listen/:songId", controller.listenPatch);
 export const songRoutes: Router = router;
