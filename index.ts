@@ -3,6 +3,7 @@ const app:Express = express();
 import env from "dotenv";
 env.config();
 import { connect } from "./config/database";
+import methodOverride from "method-override";
 connect();
 import clientRoutes from "./routes/client/index.route";
 import adminRoutes from "./routes/admin/index.route";
@@ -11,7 +12,7 @@ import path from "path";
 import bodyParser from "body-parser";
 
 const port:number|string = `${process.env.PORT}` || 3000  ;
-
+app.use(methodOverride('_method'));
 
 app.set('views' , `${__dirname}/views`);
 app.set('view engine' , 'pug');
